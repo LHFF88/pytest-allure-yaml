@@ -1,0 +1,399 @@
+
+- apis:
+    -
+      name: put请求保存组织 01
+      data:
+        path: /ums/organization/saveOrganization
+        method: put
+        headers:
+        json:
+          organizationName: "自测组织0214"
+          enableStatus: 1
+          timestamp:
+
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: code
+          expect: 10001    # code:200 与 返回的值的code进行断言比对
+
+- apis:
+    -
+      name: delete请求保存组织 02
+      data:
+        path: /ums/organization/saveOrganization
+        method: delete
+        headers:
+        json:
+          organizationName: "自测组织0214"
+          enableStatus: 1
+          timestamp:
+
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: code
+          expect: 10001    # code:200 与 返回的值的code进行断言比对
+
+- apis:
+    -
+      name: get请求保存组织 03
+      data:
+        path: /ums/organization/saveOrganization
+        method: get
+        headers:
+        json:
+          organizationName: "自测组织0214"
+          enableStatus: 1
+          timestamp:
+
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: code
+          expect: 10001    # code:200 与 返回的值的code进行断言比对
+
+- apis:
+    -
+      name: 保存组织 04
+      data:
+        path: /ums/organization/saveOrganization
+        method: post
+        headers:
+        json:
+          organizationName: "自测组织0214"
+          enableStatus: 1
+          timestamp:
+
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: message
+          expect: '操作成功'    # code:200 与 返回的值的code进行断言比对
+      teardown:
+        - type: db
+          sqls:
+            DELETE FROM ums_organization WHERE organization_name = '自测组织0214';
+
+
+
+- apis:
+    -
+      name: 保存重复的组织名称 05
+      data:
+        path: /ums/organization/saveOrganization
+        method: post
+        headers:
+        json:
+          organizationName: "自测组织0215"
+          enableStatus: 1
+          timestamp:
+
+
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: message
+          expect: '数据重复'    # code:200 与 返回的值的code进行断言比对
+
+
+
+- apis:
+    -
+      name: 组织名称为整数 06
+
+      data:
+        path: /ums/organization/saveOrganization
+        method: post
+        headers:
+        json:
+          organizationName: 123123
+          enableStatus: 1
+          timestamp:
+
+
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: message
+          expect: '操作成功'    # code:200 与 返回的值的code进行断言比对
+
+      teardown:
+        - type: db
+          sqls:
+            DELETE FROM ums_organization WHERE organization_name = '123123';
+
+
+
+- apis:
+    -
+      name: 组织名称为51个字符 07
+
+      data:
+        path: /ums/organization/saveOrganization
+        method: post
+        headers:
+        json:
+          organizationName: "12312312341231231234123123123412312312341231231234123"
+          enableStatus: 1
+          timestamp:
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: message
+          expect: '最大长度不能超过50'    # code:200 与 返回的值的code进行断言比对
+
+
+- apis:
+    -
+      name: 组织名称为空 08
+
+      data:
+        path: /ums/organization/saveOrganization
+        method: post
+        headers:
+        json:
+          organizationName: ""
+          enableStatus: 1
+          timestamp:
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: message
+          expect: '组织名称不能为空'    # code:200 与 返回的值的code进行断言比对
+
+
+
+
+
+
+- apis:
+    -
+      name: 禁用状态为空 09
+
+      data:
+        path: /ums/organization/saveOrganization
+        method: post
+        headers:
+        json:
+          organizationName: "123阿斯弗"
+          enableStatus:
+          timestamp:
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: message
+          expect: '状态不允许为空'    # code:200 与 返回的值的code进行断言比对
+
+
+- apis:
+    -
+      name: 禁用状态不为2 10
+
+      data:
+        path: /ums/organization/saveOrganization
+        method: post
+        headers:
+        json:
+          organizationName: "123阿斯弗"
+          enableStatus: 2
+          timestamp:
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: message
+          expect: '状态错误'    # code:200 与 返回的值的code进行断言比对
+
+
+- apis:
+    -
+      name: 状态为1 11
+
+      data:
+        path: /ums/organization/saveOrganization
+        method: post
+        headers:
+        json:
+          organizationName: "123123"
+          enableStatus: 1
+          timestamp:
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: message
+          expect: '操作成功'    # code:200 与 返回的值的code进行断言比对
+      teardown:
+        - type: db
+          sqls:
+            DELETE FROM ums_organization WHERE organization_name = '123123';
+
+
+- apis:
+    -
+      name: 状态为0 12
+
+      data:
+        path: /ums/organization/saveOrganization
+        method: post
+        headers:
+        json:
+          organizationName: "123123"
+          enableStatus: 0
+          timestamp:
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: message
+          expect: '操作成功'    # code:200 与 返回的值的code进行断言比对
+      teardown:
+        - type: db
+          sqls:
+            DELETE FROM ums_organization WHERE organization_name = '123123';
+
+
+- apis:
+    -
+      name: 状态为-1 13
+
+      data:
+        path: /ums/organization/saveOrganization
+        method: post
+        headers:
+        json:
+          organizationName: "123123"
+          enableStatus:   -1
+          timestamp:
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+
+
+- apis:
+    - name: 状态为特殊符号 14
+
+      data:
+        path: /ums/organization/saveOrganization
+        method: post
+        headers:
+        json:
+          organizationName: "123123"
+          enableStatus: "!##@$%%"
+          timestamp:
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: code
+          expect: 10001    # code:200 与 返回的值的code进行断言比对
+      teardown:
+        - type: db
+          sqls:
+            DELETE FROM ums_organization WHERE organization_name = '123123';
+
+- apis:
+    -
+      name: 状态为中文 15
+
+      data:
+        path: /ums/organization/saveOrganization
+        method: post
+        headers:
+        json:
+          organizationName: "123123"
+          enableStatus: "你好啊"
+          timestamp:
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: code
+          expect: 10001    # code:200 与 返回的值的code进行断言比对
+
+      teardown:
+        - type: db
+          sqls:
+            DELETE FROM ums_organization WHERE organization_name = '123123';
+
+- apis:
+    -
+      name: 状态为英文 16
+
+      data:
+        path: /ums/organization/saveOrganization
+        method: post
+        headers:
+        json:
+          organizationName: "123123"
+          enableStatus: "rtyuiolghjk"
+          timestamp:
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: code
+          expect: 10001    # code:200 与 返回的值的code进行断言比对
+
+      teardown:
+        - type: db
+          sqls:
+            DELETE FROM ums_organization WHERE organization_name = '123123';
+
+- apis:
+    - name: 错误的时间戳保存组织 17
+
+      data:
+        path: /ums/organization/saveOrganization
+        method: post
+        headers:
+        json:
+          organizationName: "123123"
+          enableStatus: "0"
+          timestamp: 好久哦i啊是佛i啊好刀法
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: code
+          expect: 10001    # code:200 与 返回的值的code进行断言比对
+
+      teardown:
+        - type: db
+          sqls:
+            DELETE FROM ums_organization WHERE organization_name = '123123';
+
+
+
+- apis:
+    -
+      name: 时间戳为空保存组织 18
+      data:
+        path: /ums/organization/saveOrganization
+        method: post
+        headers:
+        json:
+          organizationName: "123123"
+          enableStatus: "1"
+          timestamp: " "
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: code
+          expect: 10001    # code:200 与 返回的值的code进行断言比对
+
+      teardown:
+        - type: db
+          sqls:
+            DELETE FROM ums_organization WHERE organization_name = '123123';

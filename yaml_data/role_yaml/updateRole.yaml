@@ -1,0 +1,150 @@
+
+- apis:
+    -
+      name: 修改名称 01
+      data:
+        path: /ums/role/updateRole
+        method: post
+        headers:
+        json:
+          roleName: 伟大山
+          roleNo: 7
+          timestamp:
+
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: message
+          expect: '操作成功'    # code:200 与 返回的值的code进行断言比对
+      teardown:
+        - type: db
+          sqls:
+            update ums_role set name = "伟大山-开发" where id = 7
+
+- apis:
+    -
+      name: 角色编号为空 01
+      data:
+        path: /ums/role/updateRole
+        method: post
+        headers:
+        json:
+          roleNo:
+          timestamp:
+
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: message
+          expect: '角色编号不允许为空'    # code:200 与 返回的值的code进行断言比对
+
+- apis:
+    -
+      name: 角色编号不存在 01
+      data:
+        path: /ums/role/updateRole
+        method: post
+        headers:
+        json:
+          roleNo: -9
+          timestamp:
+
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: message
+          expect: '记录不存在或已被删除'    # code:200 与 返回的值的code进行断言比对
+
+- apis:
+    -
+      name: 时间戳为空 01
+      data:
+        path: /ums/role/updateRole
+        method: post
+        headers:
+        json:
+          roleNo: 7
+          timestamp: ""
+
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: message
+          expect: '时间戳不能为空'    # code:200 与 返回的值的code进行断言比对
+
+- apis:
+    -
+      name: 时间戳大于60000s 01
+      data:
+        path: /ums/role/updateRole
+        method: post
+        headers:
+        json:
+          roleNo: 7
+          timestamp: "1"
+
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: message
+          expect: '请求超过60000秒'    # code:200 与 返回的值的code进行断言比对
+
+- apis:
+    -
+      name: 请求方式为get 01
+      data:
+        path: /ums/role/updateRole
+        method: get
+        headers:
+        json:
+          roleNo: 7
+          timestamp:
+
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: code
+          expect: 10001    # code:200 与 返回的值的code进行断言比对
+
+- apis:
+    -
+      name: 请求方式为delete 01
+      data:
+        path: /ums/role/updateRole
+        method: delete
+        headers:
+        json:
+          roleNo: 7
+          timestamp:
+
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: code
+          expect: 10001  # code:200 与 返回的值的code进行断言比对
+
+
+- apis:
+    -
+      name: 请求方式put 01
+      data:
+        path: /ums/role/updateRole
+        method: put
+        headers:
+        json:
+          roleNo: 7
+          timestamp:
+
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: code
+          expect: 10001    # code:200 与 返回的值的code进行断言比对

@@ -1,0 +1,116 @@
+
+- apis:
+    -
+      name: 获取登录人对应的组织信息 01
+
+      data:
+        path: /ums/organization/getOrganizationListDropDownList
+        method: post
+        headers:
+        json:
+          timestamp:
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+
+
+
+- apis:
+    -
+      name: 请求为get请求 04
+      data:
+        path: /ums/organization/getOrganizationListDropDownList
+        method: get
+        headers:
+        json:
+          timestamp:
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: code
+          expect: 10001    # code:200 与 返回的值的code进行断言比对
+
+
+- apis:
+    -
+      name: 请求为delete请求 05
+      data:
+        path: /ums/organization/getOrganizationListDropDownList
+        method: delete
+        headers:
+        json:
+          timestamp:
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: code
+          expect: 10001    # code:200 与 返回的值的code进行断言比对
+
+
+- apis:
+    -
+      name: 请求为put 06
+      data:
+        path: /ums/organization/getOrganizationListDropDownList
+        method: put
+        headers:
+        json:
+          timestamp:
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: code
+          expect: 10001    # code:200 与 返回的值的code进行断言比对
+
+
+- apis:
+    -
+      name: 时间戳为空 08
+      data:
+        path: /ums/organization/getOrganizationListDropDownList
+        method: post
+        headers:
+        json:
+          timestamp: " "
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: message
+          expect: "时间戳不能为空"    # code:200 与 返回的值的code进行断言比对
+
+- apis:
+    -
+      name: 时间戳超过60000秒 09
+      data:
+        path: /ums/organization/getOrganizationListDropDownList
+        method: post
+        headers:
+        json:
+          timestamp: 1676445536752
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: message
+          expect: "请求超过60000秒"    # code:200 与 返回的值的code进行断言比对
+
+
+- apis:
+    -
+      name: 错误的URL 09
+      data:
+        path: /ums/organization/getOrganizationListDropDownList
+        method: post
+        headers:
+        json:
+          timestamp:
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 404
+        - type: sys        # sys: 关键性业务信息断言
+          name: message
+          expect: "请求超过60000秒"    # code:200 与 返回的值的code进行断言比对

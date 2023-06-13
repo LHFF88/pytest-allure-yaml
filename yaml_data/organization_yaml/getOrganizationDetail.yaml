@@ -1,0 +1,181 @@
+
+- apis:
+    -
+      name: 获取组织详情 01
+      data:
+        path: /ums/organization/getOrganizationDetail
+        method: post
+        headers:
+        json:
+          timestamp:
+          organizationNo: 1
+
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: message
+          expect: '操作成功'    # code:200 与 返回的值的code进行断言比对
+
+
+- apis:
+    -
+      name: 组织编号为空 02
+      data:
+        path: /ums/organization/getOrganizationDetail
+        method: post
+        headers:
+        json:
+          timestamp:
+          organizationNo: " "
+
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: message
+          expect: '组织编号不能为空'    # code:200 与 返回的值的code进行断言比对
+
+- apis:
+    -
+      name: 不存在的组织编号 03
+      data:
+        path: /ums/organization/getOrganizationDetail
+        method: post
+        headers:
+        json:
+          timestamp:
+          organizationNo: 151231214431232
+
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: message
+          expect: '记录不存在或已被删除'    # code:200 与 返回的值的code进行断言比对
+
+- apis:
+    -
+      name: 请求方式get 04
+      data:
+        path: /ums/organization/getOrganizationDetail
+        method: get
+        headers:
+        json:
+          timestamp:
+          organizationNo: 1
+
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: code
+          expect: 10001    # code:200 与 返回的值的code进行断言比对
+
+
+- apis:
+    -
+      name: 请求方式put 05
+      data:
+        path: /ums/organization/getOrganizationDetail
+        method: put
+        headers:
+        json:
+          timestamp:
+          organizationNo: 1
+
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: code
+          expect: 10001    # code:200 与 返回的值的code进行断言比对
+
+- apis:
+    -
+      name: 请求方式delete 06
+      data:
+        path: /ums/organization/getOrganizationDetail
+        method: delete
+        headers:
+        json:
+          timestamp:
+          organizationNo: 1
+
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: code
+          expect: 10001   # code:200 与 返回的值的code进行断言比对
+
+- apis:
+    -
+      name: 时间戳为空 07
+      data:
+        path: /ums/organization/getOrganizationDetail
+        method: post
+        headers:
+        json:
+          timestamp: " "
+          organizationNo: 1
+
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: message
+          expect: "时间戳不能为空"   # code:200 与 返回的值的code进行断言比对
+
+
+- apis:
+    - name: 时间戳超过60000秒 08
+      data:
+        path: /ums/organization/getOrganizationDetail
+        method: post
+        headers:
+        json:
+          timestamp: 1676451457412
+          organizationNo: 1
+
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: message
+          expect: "请求超过60000秒"   # code:200 与 返回的值的code进行断言比对
+
+- apis:
+    - name: 时间戳为字符串 09
+      data:
+        path: /ums/organization/getOrganizationDetail
+        method: post
+        headers:
+        json:
+          timestamp: "1f5dsf41dsf1"
+          organizationNo: 1
+
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: code
+          expect: 10001   # code:200 与 返回的值的code进行断言比对
+
+
+- apis:
+    - name: 时间戳为小数 10
+      data:
+        path: /ums/organization/getOrganizationDetail
+        method: post
+        headers:
+        json:
+          timestamp: -1676451457412
+          organizationNo: 1
+
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: code
+          expect: 10001   # code:200 与 返回的值的code进行断言比对

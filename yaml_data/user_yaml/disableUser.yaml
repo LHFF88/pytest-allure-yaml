@@ -1,0 +1,170 @@
+
+- apis:
+    -
+      name: 禁用账号 01
+      data:
+        path: /ums/new/user/disableUser
+        method: post
+        headers:
+        json:
+          userNoList: [361]
+          timestamp:
+
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: message
+          expect: '操作成功'    # code:200 与 返回的值的code进行断言比对
+      teardown:
+        - type: db
+          sqls:
+            update ums_admin set status = 1 where id = 361
+
+- apis:
+    -
+      name: 账号编号为空 01
+      data:
+        path: /ums/new/user/disableUser
+        method: post
+        headers:
+        json:
+          userNoList: [ ]
+          timestamp:
+
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: message
+          expect: '用户编号集合不允许为空'    # code:200 与 返回的值的code进行断言比对
+
+- apis:
+    -
+      name: 账号编号不存在 01
+      data:
+        path: /ums/new/user/disableUser
+        method: post
+        headers:
+        json:
+          userNoList: [1-361]
+          timestamp:
+
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: code
+          expect: 10001    # code:200 与 返回的值的code进行断言比对
+
+- apis:
+    -
+      name: 时间戳为空 01
+      data:
+        path: /ums/new/user/disableUser
+        method: post
+        headers:
+        json:
+          userNoList: [361]
+          timestamp: " "
+
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: message
+          expect: '时间戳不能为空'    # code:200 与 返回的值的code进行断言比对
+
+- apis:
+    -
+      name: 时间戳大于60000s 01
+      data:
+        path: /ums/new/user/disableUser
+        method: post
+        headers:
+        json:
+          userNoList: [361]
+          timestamp: "1231234"
+
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: message
+          expect: '请求超过60000秒'    # code:200 与 返回的值的code进行断言比对
+
+- apis:
+    -
+      name: 请求方式为get 01
+      data:
+        path: /ums/new/user/disableUser
+        method: get
+        headers:
+        json:
+          userNoList: [361]
+          timestamp:
+
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: code
+          expect: 10001    # code:200 与 返回的值的code进行断言比对
+
+
+- apis:
+    -
+      name: 请求方式为delete 01
+      data:
+        path: /ums/new/user/disableUser
+        method: delete
+        headers:
+        json:
+          userNoList: [361]
+          timestamp:
+
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: code
+          expect: 10001   # code:200 与 返回的值的code进行断言比对
+
+
+- apis:
+    -
+      name: 请求方式为put 01
+      data:
+        path: /ums/new/user/disableUser
+        method: put
+        headers:
+        json:
+          userNoList: [361]
+          timestamp:
+
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: code
+          expect: 10001    # code:200 与 返回的值的code进行断言比对
+
+
+
+- apis:
+    -
+      name: 不存在的编号 01
+      data:
+        path: /ums/new/user/disableUser
+        method: post
+        headers:
+        json:
+          userNoList: [-11111361]
+          timestamp:
+
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: code
+          expect: 200    # code:200 与 返回的值的code进行断言比对

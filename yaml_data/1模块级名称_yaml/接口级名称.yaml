@@ -1,0 +1,99 @@
+
+- apis:
+    -
+      name: 填写此次接口测试的信息,会在运行时方便检查
+      setup:
+        -
+          type: db  # 数据库操作填写db
+          sqls:
+            - UPDATE ums_department SET is_delete = 0 WHERE id = 22;
+      setup:
+        - type: api  # 接口操作,如重复登陆先注册填写api
+          data:
+            path: /register/
+            method: post
+            json:
+              name: admin91
+              password1: "123456"
+              password2: "123456"
+      data:                         # 当前接口调用的参数
+        path: /admin/add            # 路径
+        method: post                # 请求方法
+        headers:                    # 会自动填入headers
+        json:                       # json或data信息填写
+           username: "测试0001"
+           password: "84086854434102de19fcd60b20238152"
+           departmentId: 1
+           roleId: [2]
+           type: 1
+
+      assert:                                 # 当前接口需要的断言
+        -
+          type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        -
+          type: sys        # sys: 关键性业务信息断言
+          name: code
+          expect: "200"    # code:200 与 返回的值的code进行断言比对
+        -
+         type: sys        # sys: 关键性业务信息断言
+          name: nickname
+          expect: "姓名不能为空"    # code:200 与 返回的值的code进行断言比对
+        -
+          type: db         # db: 数据库断言
+          sql: SELECT * FROM auth_user WHERE username = 'qra00901112';
+          expect: 1
+
+      set_args:
+        -
+          name: asn_code
+          key: asn_code
+        -
+          name: id
+          key: asn_id
+      teardown:
+        -
+          type: db
+          sqls:
+            - DELETE FROM ums_admin WHERE username = '测试0001';
+
+
+
+- apis:
+    -
+      name: 填写此次接口测试的信息,会在运行时方便检查
+      setup:
+        -
+          type: db  # 数据库操作填写db
+          sqls:
+            - UPDATE ums_department SET is_delete = 0 WHERE id = 22;
+
+      data:                         # 当前接口调用的参数
+        path: /admin/%(asn_id)s            # 路径
+        method: post                # 请求方法
+        headers:                    # 会自动填入headers
+        json:                       # json或data信息填写
+           username: "测试0001"
+           password: "84086854434102de19fcd60b20238152"
+           asn_code: "%(asn_code)s"
+           roleId: [2]
+           type: 1
+
+      assert:                                 # 当前接口需要的断言
+        -
+          type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        -
+          type: sys        # sys: 关键性业务信息断言
+          name: code
+          expect: "200"    # code:200 与 返回的值的code进行断言比对
+        -
+          type: db         # db: 数据库断言
+          sql: SELECT * FROM auth_user WHERE username = 'qra00901112';
+          expect: 1
+
+      teardown:
+        -
+          type: db
+          sqls:
+            - DELETE FROM ums_admin WHERE username = '测试0001';

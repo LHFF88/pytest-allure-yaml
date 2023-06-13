@@ -1,0 +1,94 @@
+
+- apis:
+    -
+      name: 查询角色列表 01
+      data:
+        path: /ums/role/getParentRoleList
+        method: post
+        headers:
+        json:
+          timestamp:
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: message
+          expect: '操作成功'    # code:200 与 返回的值的code进行断言比对
+
+- apis:
+    -
+      name: 时间戳为空 01
+      data:
+        path: /ums/role/getParentRoleList
+        method: post
+        headers:
+        json:
+          timestamp: ""
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: message
+          expect: '时间戳不能为空'    # code:200 与 返回的值的code进行断言比对
+
+- apis:
+    -
+      name: 时间戳大于60000s 01
+      data:
+        path: /ums/role/getParentRoleList
+        method: post
+        headers:
+        json:
+          timestamp: "1"
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: message
+          expect: '请求超过60000秒'    # code:200 与 返回的值的code进行断言比对
+
+- apis:
+    -
+      name: 请求方式get 01
+      data:
+        path: /ums/role/getParentRoleList
+        method: get
+        headers:
+        json:
+          timestamp:
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: code
+          expect: 10001    # code:200 与 返回的值的code进行断言比对
+- apis:
+    -
+      name: 请求方式put 01
+      data:
+        path: /ums/role/getParentRoleList
+        method: put
+        headers:
+        json:
+          timestamp:
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: code
+          expect: 10001    # code:200 与 返回的值的code进行断言比对
+- apis:
+    -
+      name: 请求方式delete 01
+      data:
+        path: /ums/role/getParentRoleList
+        method: delete
+        headers:
+        json:
+          timestamp:
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: code
+          expect: 10001    # code:200 与 返回的值的code进行断言比对

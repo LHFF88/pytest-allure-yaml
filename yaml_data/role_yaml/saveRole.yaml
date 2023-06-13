@@ -1,0 +1,265 @@
+
+- apis:
+    -
+      name: 新建角色 01
+      data:
+        path: /ums/role/saveRole
+        method: post
+        headers:
+        json:
+          roleName: "SFIHDSIFH"
+          parentRoleId: 1
+          menuList:  [1,2,3,4,5,6,7,8,9,]
+          timestamp:
+
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: message
+          expect: '操作成功'    # code:200 与 返回的值的code进行断言比对
+      teardown:
+        - type: db
+          sqls:
+            delete from ums_role where name = "SFIHDSIFH"
+
+- apis:
+    -
+      name: 角色名称为空 01
+      data:
+        path: /ums/role/saveRole
+        method: post
+        headers:
+        json:
+          roleName:
+          parentRoleId: 1
+          menuList:  [1,2,3,4,5,6,7,8,9,]
+          timestamp:
+
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: message
+          expect: '角色名称不能为空'    # code:200 与 返回的值的code进行断言比对
+
+- apis:
+    -
+      name: 多个父级角色 01
+      data:
+        path: /ums/role/saveRole
+        method: post
+        headers:
+        json:
+          roleName: fsd
+          parentRoleId: 1,2
+          menuList:  [1,2,3,4,5,6,7,8,9,]
+          timestamp:
+
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: code
+          expect: 10001    # code:200 与 返回的值的code进行断言比对
+
+- apis:
+    -
+      name: 父级角色为空 01
+      data:
+        path: /ums/role/saveRole
+        method: post
+        headers:
+        json:
+          roleName: 123
+          parentRoleId:
+          menuList:  [1,2,3,4,5,6,7,8,9,]
+          timestamp:
+
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: message
+          expect: '上级角色编号不能为空'    # code:200 与 返回的值的code进行断言比对
+
+- apis:
+    -
+      name: 菜单编号为空 01
+      data:
+        path: /ums/role/saveRole
+        method: post
+        headers:
+        json:
+          roleName: 123
+          parentRoleId: 1
+          menuList:
+          timestamp:
+
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: message
+          expect: '菜单编号不能为空'    # code:200 与 返回的值的code进行断言比对
+
+- apis:
+    -
+      name: 不存在的菜单 01
+      data:
+        path: /ums/role/saveRole
+        method: post
+        headers:
+        json:
+          roleName: 1231
+          parentRoleId: 1
+          menuList:  [-11]
+          timestamp:
+
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: message
+          expect: '菜单信息有误，请确认后再试'    # code:200 与 返回的值的code进行断言比对
+
+- apis:
+    -
+      name: 两个菜单编号一样 01
+      data:
+        path: /ums/role/saveRole
+        method: post
+        headers:
+        json:
+          roleName: 1231
+          parentRoleId: 1
+          menuList:  [1,1]
+          timestamp:
+
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: message
+          expect: '菜单信息有误，请确认后再试'    # code:200 与 返回的值的code进行断言比对
+
+- apis:
+    -
+      name: 不存在的父级角色 01
+      data:
+        path: /ums/role/saveRole
+        method: post
+        headers:
+        json:
+          roleName: 234
+          parentRoleId: -1
+          menuList:  [1,2,3,4,5,6,7,8,9,]
+          timestamp:
+
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: message
+          expect: '用户角色不存在'    # code:200 与 返回的值的code进行断言比对
+
+- apis:
+    -
+      name: 时间戳为空 01
+      data:
+        path: /ums/role/saveRole
+        method: post
+        headers:
+        json:
+          roleName: 132
+          parentRoleId: 1
+          menuList:  [1,2,3,4,5,6,7,8,9,]
+          timestamp: " "
+
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: message
+          expect: '时间戳不能为空'    # code:200 与 返回的值的code进行断言比对
+
+- apis:
+    -
+      name: 时间戳超过60000s 01
+      data:
+        path: /ums/role/saveRole
+        method: post
+        headers:
+        json:
+          roleName: 123
+          parentRoleId: 1
+          menuList:  [1,2,3,4,5,6,7,8,9,]
+          timestamp: "1"
+
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: message
+          expect: '请求超过60000秒'    # code:200 与 返回的值的code进行断言比对
+
+- apis:
+    -
+      name: 请求为get 01
+      data:
+        path: /ums/role/saveRole
+        method: get
+        headers:
+        json:
+          roleName: 123
+          parentRoleId: 1
+          menuList:  [1,2,3,4,5,6,7,8,9,]
+          timestamp:
+
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: code
+          expect: 10001    # code:200 与 返回的值的code进行断言比对
+
+- apis:
+    -
+      name: 请求为put 01
+      data:
+        path: /ums/role/saveRole
+        method: put
+        headers:
+        json:
+          roleName: 123
+          parentRoleId: 1
+          menuList:  [1,2,3,4,5,6,7,8,9,]
+          timestamp:
+
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: code
+          expect: 10001    # code:200 与 返回的值的code进行断言比对
+
+- apis:
+    -
+      name: 请求为delete 01
+      data:
+        path: /ums/role/saveRole
+        method: delete
+        headers:
+        json:
+          roleName: 123
+          parentRoleId: 1
+          menuList:  [1,2,3,4,5,6,7,8,9,]
+          timestamp:
+
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: code
+          expect: 10001    # code:200 与 返回的值的code进行断言比对
+

@@ -1,0 +1,341 @@
+
+- apis:
+    -
+      name: 保存用户 01
+      data:
+        path: /ums/new/user/saveUser
+        method: post
+        headers:
+        json:
+          username: 'ceshi1'
+          nickname: '保存用户'
+          password: '0c5f0721f8de2cc1b8ee6a2d32804971'
+          organizationNo: 1
+          roleNo: 1
+          timestamp:
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: message
+          expect: '操作成功'    # code:200 与 返回的值的code进行断言比对
+      teardown:
+        - type: db
+          sqls:
+            DELETE FROM ums_admin WHERE username = "ceshi1"
+
+
+- apis:
+    -
+      name: 用户名为空 01
+      data:
+        path: /ums/new/user/saveUser
+        method: post
+        headers:
+        json:
+          username:
+          nickname: '保存用户'
+          password: '0c5f0721f8de2cc1b8ee6a2d32804971'
+          organizationNo: 1
+          roleNo: 1
+          timestamp:
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: message
+          expect: '用户名不能为空'    # code:200 与 返回的值的code进行断言比对
+
+- apis:
+    -
+      name: 姓名为空 01
+      data:
+        path: /ums/new/user/saveUser
+        method: post
+        headers:
+        json:
+          username: 'ceshi1'
+          nickname:
+          password: '0c5f0721f8de2cc1b8ee6a2d32804971'
+          organizationNo: 1
+          roleNo: 1
+          timestamp:
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: message
+          expect: '姓名不能为空'    # code:200 与 返回的值的code进行断言比对
+
+- apis:
+    -
+      name: 密码为空 01
+      data:
+        path: /ums/new/user/saveUser
+        method: post
+        headers:
+        json:
+          username: 'ceshi1'
+          nickname: '保存用户'
+          password:
+          organizationNo: 1
+          roleNo: 1
+          timestamp:
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: message
+          expect: '密码不允许为空'    # code:200 与 返回的值的code进行断言比对
+
+- apis:
+    -
+      name: 组织编号为空 01
+      data:
+        path: /ums/new/user/saveUser
+        method: post
+        headers:
+        json:
+          username: 'ceshi1'
+          nickname: '保存用户'
+          password: '0c5f0721f8de2cc1b8ee6a2d32804971'
+          organizationNo:
+          roleNo: 1
+          timestamp:
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: message
+          expect: '组织编号不能为空'    # code:200 与 返回的值的code进行断言比对
+
+- apis:
+    -
+      name: 角色编号为空 01
+      data:
+        path: /ums/new/user/saveUser
+        method: post
+        headers:
+        json:
+          username: 'ceshi1'
+          nickname: '保存用户'
+          password: '0c5f0721f8de2cc1b8ee6a2d32804971'
+          organizationNo: 1
+          roleNo:
+          timestamp:
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: message
+          expect: '角色编号不能为空'    # code:200 与 返回的值的code进行断言比对
+
+- apis:
+    -
+      name: 时间戳为空 01
+      data:
+        path: /ums/new/user/saveUser
+        method: post
+        headers:
+        json:
+          username: 'ceshi1'
+          nickname: '保存用户'
+          password: '0c5f0721f8de2cc1b8ee6a2d32804971'
+          organizationNo: 1
+          roleNo: 1
+          timestamp: ' '
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: message
+          expect: '时间戳不能为空'    # code:200 与 返回的值的code进行断言比对
+
+- apis:
+    -
+      name: 不存在的角色编号 01
+      data:
+        path: /ums/new/user/saveUser
+        method: post
+        headers:
+        json:
+          username: 'ceshi1'
+          nickname: '保存用户'
+          password: '0c5f0721f8de2cc1b8ee6a2d32804971'
+          organizationNo: 1
+          roleNo: -1
+          timestamp:
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: code
+          expect: 10001    # code:200 与 返回的值的code进行断言比对
+
+- apis:
+    -
+      name: 不存在的组织编号 01
+      data:
+        path: /ums/new/user/saveUser
+        method: post
+        headers:
+        json:
+          username: 'ceshi1'
+          nickname: '保存用户'
+          password: '0c5f0721f8de2cc1b8ee6a2d32804971'
+          organizationNo: -1
+          roleNo: 1
+          timestamp:
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+- apis:
+    -
+      name: 密码为33位 01
+      data:
+        path: /ums/new/user/saveUser
+        method: post
+        headers:
+        json:
+          username: 'ceshi1'
+          nickname: '保存用户'
+          password: '0c5f0721f8de2cc11b8ee6a2d32804971'
+          organizationNo: 1
+          roleNo: 1
+          timestamp:
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: message
+          expect: '密码错误，未MD5'    # code:200 与 返回的值的code进行断言比对
+
+- apis:
+    -
+      name: 密码为32位 01
+      data:
+        path: /ums/new/user/saveUser
+        method: post
+        headers:
+        json:
+          username: 'ceshi1'
+          nickname: '保存用户'
+          password: '0c5f0721f8de2cc11b8ee6a2d804971'
+          organizationNo: 1
+          roleNo: 1
+          timestamp:
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: message
+          expect: '密码错误，未MD5'    # code:200 与 返回的值的code进行断言比对
+
+- apis:
+    -
+      name: 时间戳大于60000s 01
+      data:
+        path: /ums/new/user/saveUser
+        method: post
+        headers:
+        json:
+          username: 'ceshi1'
+          nickname: '但是发放嗄5'
+          password: '0c5f0721f8de2cc1b8ee6a2d32804971'
+          organizationNo: 1
+          roleNo: 1
+          timestamp: "1677044"
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: message
+          expect: '请求超过60000秒'    # code:200 与 返回的值的code进行断言比对
+
+- apis:
+    -
+      name: 请求方式put 01
+      data:
+        path: /ums/new/user/saveUser
+        method: put
+        headers:
+        json:
+          username: 'ceshi1'
+          nickname: '保存用户'
+          password: '0c5f0721f8de2cc1b8ee6a2d32804971'
+          organizationNo: 1
+          roleNo: 1
+          timestamp:
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: code
+          expect: 10001    # code:200 与 返回的值的code进行断言比对
+- apis:
+    -
+      name: 请求方式delete 01
+      data:
+        path: /ums/new/user/saveUser
+        method: delete
+        headers:
+        json:
+          username: 'ceshi1'
+          nickname: '保存用户'
+          password: '0c5f0721f8de2cc1b8ee6a2d32804971'
+          organizationNo: 1
+          roleNo: 1
+          timestamp:
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: code
+          expect: 10001    # code:200 与 返回的值的code进行断言比对
+
+- apis:
+    -
+      name: 请求方式get 01
+      data:
+        path: /ums/new/user/saveUser
+        method: get
+        headers:
+        json:
+          username: 'ceshi1'
+          nickname: '保存用户'
+          password: '0c5f0721f8de2cc1b8ee6a2d32804971'
+          organizationNo: 1
+          roleNo: 1
+          timestamp:
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: code
+          expect: 10001    # code:200 与 返回的值的code进行断言比对
+
+- apis:
+    -
+      name: 新增不存在的参数 01
+      data:
+        path: /ums/new/user/saveUser
+        method: post
+        headers:
+        json:
+          username: 'ceshi1'
+          nickname: '保存用户'
+          password: '0c5f0721f8de2cc1b8ee6a2d32804971'
+          organizationNo: 1
+          roleNo: 1
+          timestamp:
+          sfkjashfkj:
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: code
+          expect: 200    # code:200 与 返回的值的code进行断言比对
+      teardown:
+        - type: db
+          sqls:
+            DELETE FROM ums_admin WHERE username = "ceshi1"

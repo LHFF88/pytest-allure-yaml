@@ -1,0 +1,180 @@
+
+- apis:
+    -
+      name: 修改其它用户密码 01
+      data:
+        path: /ums/new/user/updateUserPassByOldPass
+        method: post
+        headers:
+        json:
+          userNo: 361
+          oldPass: 0c5f0721f8de2cc1b8ee6a2d32804971
+          newPass: e10adc3949ba59abbe56e057f20f883e
+          timestamp:
+
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: message
+          expect: '非本人操作'    # code:200 与 返回的值的code进行断言比对
+
+- apis:
+    -
+      name: 旧密码为空修改密码 01
+      data:
+        path: /ums/new/user/updateUserPassByOldPass
+        method: post
+        headers:
+        json:
+          userNo: 308
+          oldPass:
+          newPass: e10adc3949ba59abbe56e057f20f883e
+          timestamp:
+
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: message
+          expect: '原密码不允许为空'    # code:200 与 返回的值的code进行断言比对
+
+- apis:
+    -
+      name: 新密码为空修改密码 01
+      data:
+        path: /ums/new/user/updateUserPassByOldPass
+        method: post
+        headers:
+        json:
+          userNo: 308
+          oldPass: 0c5f0721f8de2cc1b8ee6a2d32804971
+          newPass:
+          timestamp:
+
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: message
+          expect: '新密码不允许为空'    # code:200 与 返回的值的code进行断言比对
+
+- apis:
+    -
+      name: 账户编号为空 01
+      data:
+        path: /ums/new/user/updateUserPassByOldPass
+        method: post
+        headers:
+        json:
+          userNo:
+          oldPass: 0c5f0721f8de2cc1b8ee6a2d32804971
+          newPass: e10adc3949ba59abbe56e057f20f883e
+          timestamp:
+
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: message
+          expect: '账户编号不允许为空'    # code:200 与 返回的值的code进行断言比对
+
+- apis:
+    -
+      name: 时间戳为空 01
+      data:
+        path: /ums/new/user/updateUserPassByOldPass
+        method: post
+        headers:
+        json:
+          userNo: 308
+          oldPass: 0c5f0721f8de2cc1b8ee6a2d32804971
+          newPass: e10adc3949ba59abbe56e057f20f883e
+          timestamp: " "
+
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: message
+          expect: '时间戳不能为空'    # code:200 与 返回的值的code进行断言比对
+
+- apis:
+    -
+      name: 时间戳大于60000s 01
+      data:
+        path: /ums/new/user/updateUserPassByOldPass
+        method: post
+        headers:
+        json:
+          userNo: 308
+          oldPass: 0c5f0721f8de2cc1b8ee6a2d32804971
+          newPass: e10adc3949ba59abbe56e057f20f883e
+          timestamp: "1 "
+
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: message
+          expect: '请求超过60000秒'    # code:200 与 返回的值的code进行断言比对
+
+- apis:
+    -
+      name: 请求方式为get 01
+      data:
+        path: /ums/new/user/updateUserPassByOldPass
+        method: get
+        headers:
+        json:
+          userNo: 308
+          oldPass: 0c5f0721f8de2cc1b8ee6a2d32804971
+          newPass: e10adc3949ba59abbe56e057f20f883e
+          timestamp:
+
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: code
+          expect: 10001    # code:200 与 返回的值的code进行断言比对
+
+- apis:
+    -
+      name: 请求方式为put 01
+      data:
+        path: /ums/new/user/updateUserPassByOldPass
+        method: put
+        headers:
+        json:
+          userNo: 308
+          oldPass: 0c5f0721f8de2cc1b8ee6a2d32804971
+          newPass: e10adc3949ba59abbe56e057f20f883e
+          timestamp:
+
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: code
+          expect: 10001   # code:200 与 返回的值的code进行断言比对
+
+- apis:
+    -
+      name: 请求方式为delete 01
+      data:
+        path: /ums/new/user/updateUserPassByOldPass
+        method: delete
+        headers:
+        json:
+          userNo: 308
+          oldPass: 0c5f0721f8de2cc1b8ee6a2d32804971
+          newPass: e10adc3949ba59abbe56e057f20f883e
+          timestamp:
+
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: code
+          expect: 10001    # code:200 与 返回的值的code进行断言比对

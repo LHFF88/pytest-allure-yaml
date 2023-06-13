@@ -1,0 +1,154 @@
+
+- apis:
+    -
+      name: 禁用角色 01
+      data:
+        path: /ums/role/disableRole
+        method: post
+        headers:
+        json:
+          roleIdList: [1]
+          timestamp:
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: message
+          expect: '操作成功'    # code:200 与 返回的值的code进行断言比对
+      teardown:
+        - type: db
+          sqls:
+            update ums_role set status = 1 where id = 1
+
+- apis:
+    -
+      name: 批量禁用角色 01
+      data:
+        path: /ums/role/disableRole
+        method: post
+        headers:
+        json:
+          roleIdList: [1,2]
+          timestamp:
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: message
+          expect: '操作成功'    # code:200 与 返回的值的code进行断言比对
+      teardown:
+        - type: db
+          sqls:
+            update ums_role set status = 1 where id = 1 or id= 2
+- apis:
+    -
+      name: 角色编号为空 01
+      data:
+        path: /ums/role/disableRole
+        method: post
+        headers:
+        json:
+          roleIdList:
+          timestamp:
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: message
+          expect: '角色编号集合不允许为空'    # code:200 与 返回的值的code进行断言比对
+- apis:
+    -
+      name: 角色编号不存在 01
+      data:
+        path: /ums/role/disableRole
+        method: post
+        headers:
+        json:
+          roleIdList: [-1]
+          timestamp:
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: message
+          expect: '可操作数据与预期操作数不一致'    # code:200 与 返回的值的code进行断言比对
+- apis:
+    -
+      name: 时间戳为空 01
+      data:
+        path: /ums/role/disableRole
+        method: post
+        headers:
+        json:
+          roleIdList: [1]
+          timestamp: " "
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: message
+          expect: '时间戳不能为空'    # code:200 与 返回的值的code进行断言比对
+- apis:
+    -
+      name: 时间戳大于60000s 01
+      data:
+        path: /ums/role/disableRole
+        method: post
+        headers:
+        json:
+          roleIdList: [1]
+          timestamp: "1"
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: message
+          expect: '请求超过60000秒'    # code:200 与 返回的值的code进行断言比对
+- apis:
+    -
+      name: 请求方式get 01
+      data:
+        path: /ums/role/disableRole
+        method: get
+        headers:
+        json:
+          roleIdList: [1]
+          timestamp:
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: code
+          expect: 10001     # code:200 与 返回的值的code进行断言比对
+- apis:
+    -
+      name: 请求方式put 01
+      data:
+        path: /ums/role/disableRole
+        method: put
+        headers:
+        json:
+          roleIdList: [1]
+          timestamp:
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: code
+          expect: 10001     # code:200 与 返回的值的code进行断言比对
+- apis:
+    -
+      name: 请求方式delete 01
+      data:
+        path: /ums/role/disableRole
+        method: delete
+        headers:
+        json:
+          roleIdList: [1]
+          timestamp:
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: code
+          expect: 10001    # code:200 与 返回的值的code进行断言比对

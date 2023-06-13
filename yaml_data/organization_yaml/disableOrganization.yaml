@@ -1,0 +1,216 @@
+
+- apis:
+    -
+      name: 禁用组织 01
+
+      data:
+        path: /ums/organization/disableOrganization
+        method: post
+        headers:
+        json:
+          timestamp:
+          organizationNoList: [
+          35
+          ]
+
+
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: message
+          expect: '操作成功'    # code:200 与 返回的值的code进行断言比对
+      teardown:
+        - type: db
+          sqls:
+            update ums_organization set is_able = 1 where id = 35;
+
+
+- apis:
+    -
+      name: 不存在的组织集合编号 02
+      data:
+        path: /ums/organization/disableOrganization
+        method: post
+        headers:
+        json:
+          timestamp:
+          organizationNoList: [
+          -1123
+          ]
+
+
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: message
+          expect: '可操作数据与预期操作数不一致'    # code:200 与 返回的值的code进行断言比对
+
+- apis:
+    -
+      name: 组织集合为空 03
+      data:
+        path: /ums/organization/disableOrganization
+        method: post
+        headers:
+        json:
+          timestamp:
+          organizationNoList: [
+
+          ]
+
+
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: message
+          expect: '集合不能为空'    # code:200 与 返回的值的code进行断言比对
+
+- apis:
+    -
+      name: 请求为get请求 04
+      data:
+        path: /ums/organization/disableOrganization
+        method: get
+        headers:
+        json:
+          timestamp:
+          organizationNoList: [
+          35
+          ]
+
+
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: code
+          expect: 10001    # code:200 与 返回的值的code进行断言比对
+
+
+- apis:
+    -
+      name: 请求为delete请求 05
+      data:
+        path: /ums/organization/disableOrganization
+        method: delete
+        headers:
+        json:
+          timestamp:
+          organizationNoList: [
+          35
+          ]
+
+
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: code
+          expect: 10001    # code:200 与 返回的值的code进行断言比对
+
+
+- apis:
+    -
+      name: 请求为put 06
+      data:
+        path: /ums/organization/disableOrganization
+        method: put
+        headers:
+        json:
+          timestamp:
+          organizationNoList: [
+          35
+          ]
+
+
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: code
+          expect: 10001    # code:200 与 返回的值的code进行断言比对
+
+
+- apis:
+    -
+      name: 组织集合编号为字符串 07
+      data:
+        path: /ums/organization/disableOrganization
+        method: post
+        headers:
+        json:
+          timestamp:
+          organizationNoList: [
+          "3fdsfa"
+          ]
+
+
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: code
+          expect: 10001    # code:200 与 返回的值的code进行断言比对
+
+- apis:
+    -
+      name: 时间戳为空 08
+      data:
+        path: /ums/organization/disableOrganization
+        method: post
+        headers:
+        json:
+          timestamp: " "
+          organizationNoList: [
+          35
+          ]
+
+
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: message
+          expect: "时间戳不能为空"    # code:200 与 返回的值的code进行断言比对
+
+- apis:
+    -
+      name: 时间戳超过60000秒 09
+      data:
+        path: /ums/organization/disableOrganization
+        method: post
+        headers:
+        json:
+          timestamp: 1676445536752
+          organizationNoList: [
+          35
+          ]
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: message
+          expect: "请求超过60000秒"    # code:200 与 返回的值的code进行断言比对
+
+
+- apis:
+    -
+      name: 错误的URL 09
+      data:
+        path: /ums/organization/eableOrganization
+        method: post
+        headers:
+        json:
+          timestamp:
+          organizationNoList: [
+          35
+          ]
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 404
+        - type: sys        # sys: 关键性业务信息断言
+          name: message
+          expect: "请求超过60000秒"    # code:200 与 返回的值的code进行断言比对

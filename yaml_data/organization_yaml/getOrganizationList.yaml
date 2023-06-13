@@ -1,0 +1,71 @@
+
+- apis:
+    -
+      name: 获取组织集合 01
+      data:
+        path: /ums/organization/getOrganizationList
+        method: post
+        headers:
+        json:
+          timestamp:
+
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: message
+          expect: '操作成功'    # code:200 与 返回的值的code进行断言比对
+
+
+
+- apis:
+    -
+      name: 时间戳超过60000秒 02
+      data:
+        path: /ums/organization/getOrganizationList
+        method: post
+        headers:
+        json:
+          timestamp: 1676445536752
+
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: message
+          expect: '请求超过60000秒'    # code:200 与 返回的值的code进行断言比对
+
+
+- apis:
+    -
+      name: 时间戳格式不正确 03
+      data:
+        path: /ums/organization/getOrganizationList
+        method: post
+        headers:
+        json:
+          timestamp: 斯蒂芬542132而无法
+
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: code
+          expect: 10001    # code:200 与 返回的值的code进行断言比对
+
+- apis:
+    -
+      name: 时间戳为空 04
+      data:
+        path: /ums/organization/getOrganizationList
+        method: post
+        headers:
+        json:
+          timestamp: " "
+
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: message
+          expect: '时间戳不能为空'    # code:200 与 返回的值的code进行断言比对

@@ -1,0 +1,120 @@
+
+- apis:
+    -
+      name: 更新组织信息 01
+      data:
+        path: /ums/organization/updateOrganization
+        method: post
+        headers:
+        json:
+          timestamp:
+          organizationNo: 1
+          organizationName: "伟山国际无限公司-保存"
+
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: message
+          expect: '操作成功'    # code:200 与 返回的值的code进行断言比对
+      teardown:
+        - type: db
+          sqls:
+            update ums_organization set organization_name = "伟山国际无限公司-修改" where id = 1;
+
+- apis:
+    -
+      name: 组织信息为空 02
+      data:
+        path: /ums/organization/updateOrganization
+        method: post
+        headers:
+        json:
+          timestamp:
+          organizationNo:
+          organizationName: "伟山国际无限公司-保存"
+
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: message
+          expect: '组织编号不能为空'    # code:200 与 返回的值的code进行断言比对
+
+- apis:
+    -
+      name: 不存在的组织信息 03
+      data:
+        path: /ums/organization/updateOrganization
+        method: post
+        headers:
+        json:
+          timestamp:
+          organizationNo: -1
+          organizationName: "伟山国际无限公司-保存"
+
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: message
+          expect: '记录不存在或已被删除'    # code:200 与 返回的值的code进行断言比对
+
+
+- apis:
+    -
+      name: 请求方式为put 04
+      data:
+        path: /ums/organization/updateOrganization
+        method: put
+        headers:
+        json:
+          timestamp:
+          organizationNo: 1
+          organizationName: "伟山国际无限公司-保存"
+
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: code
+          expect: 10001   # code:200 与 返回的值的code进行断言比对
+
+- apis:
+    -
+      name: 请求方式为get 05
+      data:
+        path: /ums/organization/updateOrganization
+        method: get
+        headers:
+        json:
+          timestamp:
+          organizationNo: 1
+          organizationName: "伟山国际无限公司-保存"
+
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: code
+          expect: 10001    # code:200 与 返回的值的code进行断言比对
+
+
+- apis:
+    -
+      name: 请求方式为delete 06
+      data:
+        path: /ums/organization/updateOrganization
+        method: delete
+        headers:
+        json:
+          timestamp:
+          organizationNo: 1
+          organizationName: "伟山国际无限公司-保存"
+
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: code
+          expect: 10001    # code:200 与 返回的值的code进行断言比对

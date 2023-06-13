@@ -1,0 +1,9 @@
+.side-nav__brand {
+  background: url('金智塔.png') no-repeat left center !important;
+  margin-left: 40px;
+  height: 100px;	
+  background-size: contain !important;
+}
+.side-nav__brand-text{
+	display: none;
+}

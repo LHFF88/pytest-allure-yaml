@@ -1,0 +1,213 @@
+
+- apis:
+    -
+      name: 修改用户手机号码 01
+      data:
+        path: /ums/new/user/updateUser
+        method: post
+        headers:
+        json:
+          userNo: 361
+          phone: "12345678901"
+          timestamp:
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: message
+          expect: '操作成功'    # code:200 与 返回的值的code进行断言比对
+      teardown:
+        - type: db
+          sqls:
+            update ums_admin set phone = "17865811011" where id = 361
+
+- apis:
+    -
+      name: 修改登录名 01
+      data:
+        path: /ums/new/user/updateUser
+        method: post
+        headers:
+        json:
+          userNo: 361
+          username: 1111111
+          timestamp:
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: message
+          expect: '操作成功'    # code:200 与 返回的值的code进行断言比对
+      teardown:
+        - type: db
+          sqls:
+            update ums_admin set username = "17865811011" where id = 361
+
+- apis:
+    - name: 修改姓名 01
+      data:
+        path: /ums/new/user/updateUser
+        method: post
+        headers:
+        json:
+          userNo: 361
+          nickname: 1111
+          timestamp:
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: message
+          expect: '操作成功'    # code:200 与 返回的值的code进行断言比对
+      teardown:
+        - type: db
+          sqls:
+            update ums_admin set name = "应用权限测试" where id = 361
+
+- apis:
+    - name: 修改状态 01
+      data:
+        path: /ums/new/user/updateUser
+        method: post
+        headers:
+        json:
+          userNo: 361
+          status: 0
+          timestamp:
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: message
+          expect: '操作成功'    # code:200 与 返回的值的code进行断言比对
+      teardown:
+        - type: db
+          sqls:
+            update ums_admin set status = 1 where id = 361
+
+- apis:
+    -
+      name: 请求状态为delete 01
+      data:
+        path: /ums/new/user/updateUser
+        method: delete
+        headers:
+        json:
+          userNo: 361
+          phone: "12345678901"
+          timestamp:
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: code
+          expect: 10001    # code:200 与 返回的值的code进行断言比对
+
+
+- apis:
+    -
+      name: 请求状态为put 01
+      data:
+        path: /ums/new/user/updateUser
+        method: put
+        headers:
+        json:
+          userNo: 361
+          phone: "12345678901"
+          timestamp:
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: code
+          expect: 10001   # code:200 与 返回的值的code进行断言比对
+
+- apis:
+    -
+      name: 请求状态为get 01
+      data:
+        path: /ums/new/user/updateUser
+        method: get
+        headers:
+        json:
+          userNo: 361
+          phone: "12345678901"
+          timestamp:
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: code
+          expect: 10001    # code:200 与 返回的值的code进行断言比对
+
+- apis:
+    -
+      name: 账户编号为空 01
+      data:
+        path: /ums/new/user/updateUser
+        method: post
+        headers:
+        json:
+          userNo:
+          phone: "12345678901"
+          timestamp:
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: code
+          expect: 10001    # code:200 与 返回的值的code进行断言比对
+
+- apis:
+    -
+      name: 不存在的账户编号 01
+      data:
+        path: /ums/new/user/updateUser
+        method: post
+        headers:
+        json:
+          userNo: -361
+          phone: "12345678901"
+          timestamp:
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: message
+          expect: "记录不存在或已被删除"    # code:200 与 返回的值的code进行断言比对
+
+- apis:
+    -
+      name: 时间戳为空 01
+      data:
+        path: /ums/new/user/updateUser
+        method: post
+        headers:
+        json:
+          userNo: 361
+          phone: "12345678901"
+          timestamp: " "
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: code
+          expect: 10001    # code:200 与 返回的值的code进行断言比对
+
+- apis:
+    -
+      name: 时间戳大于60000s 01
+      data:
+        path: /ums/new/user/updateUser
+        method: post
+        headers:
+        json:
+          userNo: 361
+          phone: "12345678901"
+          timestamp: "1"
+      assert: # 当前接口需要的断言
+        - type: status     # status：HTTP状态码    # type表示断言的类型
+          expect: 200
+        - type: sys        # sys: 关键性业务信息断言
+          name: code
+          expect: 10001    # code:200 与 返回的值的code进行断言比对
